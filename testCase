@@ -1,0 +1,6 @@
+ADD 5 John Doe 3.00 CSE
+ADD 7 Mary Jane 3.01 ART
+ADD 9 Bee Boo 3.02 AMS
+DELETE 9
+DELETE 7
+UPDATE 5 nEW man 3.33 lIn
