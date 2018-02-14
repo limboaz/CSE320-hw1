@@ -14,6 +14,7 @@ struct student_records{
 	int p;
 };
 
+
 int errorCase(char);	
 double checkGPA(char*);
 //Add node to list. 
@@ -107,17 +108,38 @@ int compareCommand(char *cmd, char *str){
 	return 0;
 }
 
-int convert(char* str){
+int convert(char* str, int flag){
 	int i;
 	for (i = 0; *(str + i); i++){
+		if (isalpha(*(str + i)) == 0){
+			if (!flag) errorCase('p');
+			else errorCase('a');
+		}
 		if (i == 0)
 			*(str) = toupper(*str);
 		else *(str + i) = tolower(*(str + i));
 	}
+	if ( i < 4 || i > 11){
+		if (!flag) errorCase('p');
+		else errorCase('a');
+	}
 }
 
-int convertMajor(char * str){
-	for (; *str; ++str) *str = toupper(*str);
+int convertMajor(char * str, int flag){
+	//for (; *str; ++str) *str = toupper(*str);
+	int i;
+	for (i = 0; *(str + i); i++){
+		if (isalpha(*(str + i)) == 0){
+			if (!flag) errorCase('p');
+			else errorCase('a');
+		}
+		*(str + i) = toupper(*(str + i));
+	}
+	
+	if ( i != 4){
+		if (!flag) errorCase('p');
+		else errorCase('a');
+	}
 }
 
 int readData(FILE *file, struct student_records *cursor){
@@ -132,10 +154,10 @@ int readData(FILE *file, struct student_records *cursor){
 		current->next = NULL;
 		sscanf(buffer, "%s %d %s %s %s %s ", cmd, &(current->id), current->firstName, current->lastName, gpa, current->major); 
 		//printf("GPA: %s\n", gpa);
-		convert(current->firstName);
+		convert(current->firstName, 0);
 		current->gpa = (float)checkGPA(gpa);
-		convert(current->lastName);
-		convertMajor(current->major);
+		convert(current->lastName, 0);
+		convertMajor(current->major, 0);
 		//printf("current cmd: %s, current id: %d, first name: %s, last name: %s, gpa: %.2f, major: %s\n", cmd, current->id, current->firstName, current->lastName, current->gpa, current->major);
 		if(compareCommand (cmd, "ADD") == 0 )
 			{       
@@ -338,10 +360,12 @@ int main(int argc, char** argv) {
 		case 'f': 
 			  withv = -1;
 			  lastname = optarg;
+			  convert(lastname, 1);
 			  break;
 		case 'm': 
 			  withv = -1;
 			  major = optarg;
+			  convertMajor(major, 1);
 			  break;
 		case 'o': 
 			  filename = optarg;
