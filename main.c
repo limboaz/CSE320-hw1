@@ -234,24 +234,31 @@ int errorCase(char c){
 	switch(c){
 		case 'f':
 			printf("FILE EXISTS");
+			exit(0);
 			break;
 		case 'q':
 			printf("NO QUERY PROVIDED");
+			exit(0);
 			break;
 		case 'p':
 			printf("FAILED TO PARSE FILE");
+			exit(0);
 			break;
 		case 's':
 			printf("STUDENT RECORD CANNOT BE DELETED NOR UPDATED");
+			exit(0);
 			break;
 		case 'i':
 			printf("ID NOT UNIQUE");
+			exit(0);
 			break;
 		case 'n':
 			printf("STUDENT RECORD NOT FOUND");
+			exit(0);
 			break;
 		default: 
 			printf("OTHER ERROR");
+			exit(0);
 			break;
 	
 	}
@@ -322,7 +329,7 @@ int main(int argc, char** argv) {
 			  abort();
 	}
   }
-  if ( c == 0)
+  if ( c == 0 || argc < 3)
 	  errorCase('q');
   //Check the flags
   //Sorry for the stupid long if-else
