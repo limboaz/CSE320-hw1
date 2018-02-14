@@ -233,31 +233,31 @@ int printToFile( FILE *f, struct student_records *head,
 int errorCase(char c){
 	switch(c){
 		case 'f':
-			printf("FILE EXISTS");
+			printf("FILE EXISTS\n");
 			exit(0);
 			break;
 		case 'q':
-			printf("NO QUERY PROVIDED");
+			printf("NO QUERY PROVIDED\n");
 			exit(0);
 			break;
 		case 'p':
-			printf("FAILED TO PARSE FILE");
+			printf("FAILED TO PARSE FILE\n");
 			exit(0);
 			break;
 		case 's':
-			printf("STUDENT RECORD CANNOT BE DELETED NOR UPDATED");
+			printf("STUDENT RECORD CANNOT BE DELETED NOR UPDATED\n");
 			exit(0);
 			break;
 		case 'i':
-			printf("ID NOT UNIQUE");
+			printf("ID NOT UNIQUE\n");
 			exit(0);
 			break;
 		case 'n':
-			printf("STUDENT RECORD NOT FOUND");
+			printf("STUDENT RECORD NOT FOUND\n");
 			exit(0);
 			break;
 		default: 
-			printf("OTHER ERROR");
+			printf("OTHER ERROR\n");
 			exit(0);
 			break;
 	
