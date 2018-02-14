@@ -46,6 +46,7 @@ int delete(int id, struct student_records *cursor){
 		if(cursor->next->id == id ){
 			cursor->next = cursor->next->next;
 			deleted = 1;
+			return 0;
 			//printf("deleted\n");
 		} else {
 			deleted = 0;
@@ -54,15 +55,17 @@ int delete(int id, struct student_records *cursor){
 		}
 		
 	}
-	if (cursor->next == NULL && deleted == 0){
+	if (cursor->id == id && cursor->next == NULL && deleted == 0){
 		free(cursor);
 		deleted = 1;
+		return 0;
 		//printf("deleted from tail\n");
 	}
 	if (deleted == 0)
 		errorCase('s');
-	else if (deleted == -1) errorCase('n');
-	return 0;
+	else if (deleted == -1) 
+		errorCase('n');
+	else return 0;
 }
 
 int update(struct student_records *current, struct student_records *cursor){
@@ -142,7 +145,7 @@ int readData(FILE *file, struct student_records *cursor){
 		else if (compareCommand(cmd, "UPDATE") == 0)
 			update(current, cursor);
 		else {
-			printf("error occured when processing command\n");
+			errorCase('p');
 		}
 		*cmd = 'x';
 		//printf("end of while loop\n");
