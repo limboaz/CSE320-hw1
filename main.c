@@ -119,7 +119,8 @@ int convert(char* str, int flag){
 			*(str) = toupper(*str);
 		else *(str + i) = tolower(*(str + i));
 	}
-	if ( i < 4 || i > 11){
+	if ( i < 3 || i > 10){
+		printf("EROROROAOSDOAS");
 		if (!flag) errorCase('p');
 		else errorCase('a');
 	}
@@ -136,7 +137,7 @@ int convertMajor(char * str, int flag){
 		*(str + i) = toupper(*(str + i));
 	}
 	
-	if ( i != 4){
+	if ( i != 3){
 		if (!flag) errorCase('p');
 		else errorCase('a');
 	}
