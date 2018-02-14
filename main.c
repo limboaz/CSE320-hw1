@@ -131,6 +131,7 @@ int readData(FILE *file, struct student_records *cursor){
 		current->major = (char *)malloc(sizeof(char)*5);
 		current->next = NULL;
 		sscanf(buffer, "%s %d %s %s %s %s ", cmd, &(current->id), current->firstName, current->lastName, gpa, current->major); 
+		//printf("GPA: %s\n", gpa);
 		convert(current->firstName);
 		current->gpa = (float)checkGPA(gpa);
 		convert(current->lastName);
@@ -273,9 +274,11 @@ double checkGPA(char *str){
 	double gpa;
 	int i;
 	for (i = 0; *(str + i); i++){
+		//printf("%c ", *(str+i));
 		if (i == 1 && *(str + i) != '.'){
 		errorCase('a');	
-		}else if (isdigit(*(str + i)) == 0 ){
+		}else if (i != 1 && isdigit(*(str + i)) == 0 ){
+			//printf("error thrown\n");
 		errorCase('a');
 		}
 	}
