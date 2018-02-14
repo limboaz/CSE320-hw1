@@ -186,39 +186,45 @@ int print(FILE* output, struct student_records *head, struct student_records *cu
 }
 
 int printID(struct student_records *head, struct student_records *cursor, int id){
-	
+	int found = 0;
 	cursor = head->next;
-	        //printf("@after printAll, should show up if no seg fault here new id %d", cursor->id);
-		//        //move the cursor to the second node b/c head is empty
-		                while ( cursor != NULL ){
+	         while ( cursor != NULL ){
 	                               //printf("@printAll while loop\n");
-		                               if(cursor->id != id) cursor->p = 0;
-					       cursor = cursor->next;
-				}
+		                               if(cursor->id != id) cursor->p = 0;				       else{
+					 found++;      } cursor = cursor->next;
+					 			}
+		 if (found == 0)
+			 errorCase('n');
 			 return 0;
 }
 
 int printLastName(struct student_records *head, struct student_records *cursor, char *ln){
+	int found = 0;
 	cursor = head->next;
 	while (cursor != NULL){
 		if (compareCommand(cursor->lastName, ln) != 0){
 			cursor->p = 0;
-			}
+			}else found++;
 		cursor = cursor->next;
 	}
+	if (found == 0)
+		errorCase('n');
 	return 0;
 }
 
 int printMajor(struct student_records *head, struct student_records *cursor, char *mjr){
+	int found = 0;
 	cursor = head->next;
 	        while (cursor != NULL){
 			//printf("@printMajor\n");
 			                if (compareCommand(cursor->major, mjr) != 0){
 	                     cursor->p = 0;
 	                    //printf("@printMajor, cursor->major is %s", cursor->major); 
-	           }
+	           }else found++;
 					cursor = cursor->next;
-		}	
+		}
+	if (found == 0)
+		errorCase('n');	
 	return 0;
 }
 
