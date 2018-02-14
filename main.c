@@ -15,7 +15,7 @@ struct student_records{
 };
 
 int errorCase(char);	
-
+double checkGPA(char*);
 //Add node to list. 
 int add(struct student_records *current, struct student_records *cursor){
 	int added;
@@ -123,15 +123,16 @@ int convertMajor(char * str){
 int readData(FILE *file, struct student_records *cursor){
 	char *buffer = (char *)malloc(sizeof(char)*128);
 	char *cmd = (char *)malloc(sizeof(char)* 8);
+	char *gpa = (char *)malloc(sizeof(char)* 5);
 	while (	fgets(buffer, 128, file) != NULL && !feof(file)){
 		struct student_records *current =(struct student_records *)malloc(sizeof(struct student_records));
 		current->firstName = (char *)malloc(sizeof(char)*20);
 		current->lastName = (char *)malloc(sizeof(char)*20);
 		current->major = (char *)malloc(sizeof(char)*5);
 		current->next = NULL;
-		sscanf(buffer, "%s %d %s %s %f %s ", cmd, &(current->id), current->firstName, current->lastName, 
-				&(current->gpa), current->major); 
+		sscanf(buffer, "%s %d %s %s %s %s ", cmd, &(current->id), current->firstName, current->lastName, gpa, current->major); 
 		convert(current->firstName);
+		current->gpa = (float)checkGPA(gpa);
 		convert(current->lastName);
 		convertMajor(current->major);
 		//printf("current cmd: %s, current id: %d, first name: %s, last name: %s, gpa: %.2f, major: %s\n", cmd, current->id, current->firstName, current->lastName, current->gpa, current->major);
@@ -266,6 +267,20 @@ int errorCase(char c){
 	
 	}
 	return 0;
+}
+
+double checkGPA(char *str){
+	double gpa;
+	int i;
+	for (i = 0; *(str + i); i++){
+		if (i == 1 && *(str + i) != '.'){
+		errorCase('a');	
+		}else if (isdigit(*(str + i)) == 0 ){
+		errorCase('a');
+		}
+	}
+	gpa = atof(str);
+	return gpa;
 }
 
 int main(int argc, char** argv) {
