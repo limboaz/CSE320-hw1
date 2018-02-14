@@ -305,7 +305,7 @@ int main(int argc, char** argv) {
   int vflag = 0;	//unless -v is called
   int oflag = 0;	//unless -o is called
   int withv = 0;
-  int c;
+  int c = 0;
   int id = -1;
   char *lastname;
   char *major;
@@ -345,15 +345,9 @@ int main(int argc, char** argv) {
 			  break;
 		case 'o': 
 			  filename = optarg;
-			  break;
-			  
-		case '?': 
-			  printf("before '?'\n");
-			  errorCase('a');
-			  break;
-			  
+			  break;	  
 		default: 
-			  abort();
+			  errorCase('a');
 	}
   }
   if ( c == 0 || argc < 3)
@@ -361,14 +355,10 @@ int main(int argc, char** argv) {
   //Check the flags
   //Sorry for the stupid long if-else
  	printAll(head, cursor); //set all p = 1
-	if ( vflag == 1 && withv != -1 ){//Don't filter
-		//printf("@before printAll trying to access head->next");
-		//printf("%p\n, head->next", head->next);//does not work
-		//printAll(head, cursor);
-		//print(head, cursor);
-		//printf("@after printall no seg fault here");
-		}
-	else {// Filter
+	if ( vflag == 1 && withv == -1 ){//Don't filter 
+		errorCase('a');
+	}
+	else if (!vflag){// Filter
 		if (id != -1)
 			printID(head, cursor, id);
 		if (lastname != NULL)
