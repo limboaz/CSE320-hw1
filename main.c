@@ -276,10 +276,10 @@ double checkGPA(char *str){
 	for (i = 0; *(str + i); i++){
 		//printf("%c ", *(str+i));
 		if (i == 1 && *(str + i) != '.'){
-		errorCase('a');	
+		errorCase('p');	
 		}else if (i != 1 && isdigit(*(str + i)) == 0 ){
 			//printf("error thrown\n");
-		errorCase('a');
+		errorCase('p');
 		}
 	}
 	gpa = atof(str);
