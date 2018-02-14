@@ -17,11 +17,13 @@ struct student_records{
 int add(struct student_records *current, struct student_records *cursor){
 	cursor->next = current;
 	*cursor = *current;
+	printf("cursor after moving: %d %s\n", cursor->id, cursor->firstName);
 	return 0;
 }	
 
 //Remove nodes from linked list. 
 int delete(struct student_records *current, struct student_records *cursor){
+	
 	return 0;
 }
 
@@ -44,7 +46,7 @@ int compareCommand(char *cmd, char *str){
 }
 
 int readData(FILE *file, struct student_records *cursor){
-	char *buffer;
+	char *buffer = (char *)malloc(sizeof(char)*128);
 	char *cmd = (char *)malloc(sizeof(char)* 8);
 	while (	fgets(buffer, 128, file) != NULL && !feof(file)){
 		struct student_records *current =(struct student_records *)malloc(sizeof(struct student_records));
@@ -54,9 +56,9 @@ int readData(FILE *file, struct student_records *cursor){
 		current->next = NULL;
 		sscanf(buffer, "%s %d %s %s %f %s ", cmd, &(current->id), current->firstName, current->lastName, 
 				&(current->gpa), current->major); 
-		//printf("current cmd: %s, current id: %d, first name: %s, last name: %s, gpa: %.2f, major: %s\n", cmd, current->id, current->firstName, current->lastName, current->gpa, current->major);
-		printf("current buffer: %s", buffer);
-		if(compareCommand (cmd, "ADD") == 0)
+		printf("current cmd: %s, current id: %d, first name: %s, last name: %s, gpa: %.2f, major: %s\n", cmd, current->id, current->firstName, current->lastName, current->gpa, current->major);
+		//printf("current buffer: %s", bufferep);
+		if(compareCommand (cmd, "ADD") == 0 )
 			{       
 			add(current, cursor);
 			printf("if add is correct should see this line at the end\n");
@@ -66,27 +68,32 @@ int readData(FILE *file, struct student_records *cursor){
 		else if (compareCommand(cmd, "UPDATE") == 0)
 			update(current, cursor);
 		else {
-			printf("error occured when processing command");
+			printf("error occured when processing command\n");
 		}
+		*cmd = 'x';
 		printf("end of while loop\n");
+		
 	}
-	printf("outside of while loop");	//Never get out of while loop, the last command can be processed though
+	//printf("outside of while loop\n");	//Never get out of while loop, the last command can be processed though
 	free(cmd);
+	free(buffer);
 	printf("It's ok until the end of readData");
 	return 0;
 }
 
 
 int printAll(struct student_records *head, struct student_records *cursor){
-	head->next = cursor;
-	printf("@Before printAll while loop, cursor is %d\n", cursor->id);
+	printf("@printAll start");
+	cursor = head->next;
+	printf("@after printAll, should show up if no seg fault here");
+	printf("@Before printAll while loop, cursor is %d\n", (cursor->next)->id);
 	//move the cursor to the second node b/c head is empty
-	while ( cursor->next != NULL ){
+	/*while ( cursor->next != NULL ){
 		printf("@printAll while loop\n");
 		printf("%d %s %s %.2f %s\n",
 				cursor->id, cursor->firstName, cursor->lastName, cursor->gpa, cursor->major);
 		cursor = cursor->next;
-	}
+	}*/
 	return 0;
 }
 
@@ -99,7 +106,7 @@ int printLastName(){
 int printMajor(){
 	return 0;
 }
-int printToFile( FILE *f, struct student_records *head, 
+ int printToFile( FILE *f, struct student_records *head, 
 		struct student_records *cursor){
 	cursor = head->next;
 	while (cursor != NULL){
@@ -150,7 +157,7 @@ int main(int argc, char** argv) {
   }; 
   struct student_records *head;
   head = &records;
-  struct student_records *cursor = head;
+  struct student_records *cursor = head;	
   int vflag = 0;	//unless -v is called
   int oflag = 0;	//unless -o is called
   int withv = 0;
@@ -206,7 +213,8 @@ int main(int argc, char** argv) {
   //Sorry for the stupid long if-else
  
 	if ( vflag == 1 && withv != -1 ){
-		//printAll(head, cursor);
+		printAll(head, cursor);
+		printf("@after printall no seg fault here");
 		}
 	else {
 		if (id != -1)
