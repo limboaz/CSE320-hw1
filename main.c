@@ -120,7 +120,6 @@ int convert(char* str, int flag){
 		else *(str + i) = tolower(*(str + i));
 	}
 	if ( i < 3 || i > 10){
-		printf("EROROROAOSDOAS");
 		if (!flag) errorCase('p');
 		else errorCase('a');
 	}
@@ -136,7 +135,6 @@ int convertMajor(char * str, int flag){
 		}
 		*(str + i) = toupper(*(str + i));
 	}
-	
 	if ( i != 3){
 		if (!flag) errorCase('p');
 		else errorCase('a');
@@ -155,20 +153,25 @@ int readData(FILE *file, struct student_records *cursor){
 		current->next = NULL;
 		sscanf(buffer, "%s %d %s %s %s %s ", cmd, &(current->id), current->firstName, current->lastName, gpa, current->major); 
 		//printf("GPA: %s\n", gpa);
-		convert(current->firstName, 0);
 		current->gpa = (float)checkGPA(gpa);
-		convert(current->lastName, 0);
-		convertMajor(current->major, 0);
+		
 		//printf("current cmd: %s, current id: %d, first name: %s, last name: %s, gpa: %.2f, major: %s\n", cmd, current->id, current->firstName, current->lastName, current->gpa, current->major);
 		if(compareCommand (cmd, "ADD") == 0 )
-			{       
+			{
+			convertMajor(current->major, 0);
+			convert(current->firstName, 0);
+			convert(current->lastName, 0);
 			add(current, cursor);
 			// printf("if add is correct should see this line at the end\n");
 			}
 		else if(compareCommand (cmd, "DELETE") == 0)
 			delete(current->id, cursor);
-		else if (compareCommand(cmd, "UPDATE") == 0)
-			update(current, cursor);
+		else if (compareCommand(cmd, "UPDATE") == 0){
+				convertMajor(current->major, 0);
+				convert(current->firstName, 0);
+				convert(current->lastName, 0);
+				update(current, cursor);
+			}
 		else {
 			errorCase('p');
 		}
